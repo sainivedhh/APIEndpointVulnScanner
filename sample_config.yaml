@@ -1,0 +1,12 @@
+id="x9z2ka"
+target:
+  base_url: "https://jsonplaceholder.typicode.com"
+
+endpoints:
+  - path: "/posts"
+    method: "GET"
+
+scan:
+  auth_test: true
+  fuzz_test: true
+  rate_limit_test: true

@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.env
+
+# Tool output directories
+reports/
+*.json
+*.html
+
+# IDE flags
+.vscode/
+.idea/
+*.swp
+.DS_Store

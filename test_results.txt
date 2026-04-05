@@ -1,0 +1,133 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.11.8, pytest-8.1.1, pluggy-1.6.0 -- C:\Users\saini\AppData\Local\Programs\Python\Python311\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Sem 6\Projects\api_project_v2
+plugins: anyio-4.13.0, cov-5.0.0
+collecting ... collected 68 items
+
+tests/test_scanner.py::TestJWTMutator::test_init_parses_valid_jwt PASSED [  1%]
+tests/test_scanner.py::TestJWTMutator::test_init_rejects_invalid_jwt PASSED [  2%]
+tests/test_scanner.py::TestJWTMutator::test_mut_alg_none_produces_unsigned_token PASSED [  4%]
+tests/test_scanner.py::TestJWTMutator::test_mut_alg_none_uppercase_variants PASSED [  5%]
+tests/test_scanner.py::TestJWTMutator::test_mut_escalate_role_changes_role FAILED [  7%]
+tests/test_scanner.py::TestJWTMutator::test_mut_exp_past_sets_exp_to_1 PASSED [  8%]
+tests/test_scanner.py::TestJWTMutator::test_mut_exp_removed_has_no_exp PASSED [ 10%]
+tests/test_scanner.py::TestJWTMutator::test_mut_empty_signature PASSED   [ 11%]
+tests/test_scanner.py::TestJWTMutator::test_mut_kid_injection_returns_5 PASSED [ 13%]
+tests/test_scanner.py::TestJWTMutator::test_generate_all_count_and_fields PASSED [ 14%]
+tests/test_scanner.py::TestJWTMutator::test_all_mutations_have_valid_token_format PASSED [ 16%]
+tests/test_scanner.py::TestHMACMutator::test_init_parses_token PASSED    [ 17%]
+tests/test_scanner.py::TestHMACMutator::test_weak_secret_guess_generates_multiple PASSED [ 19%]
+tests/test_scanner.py::TestHMACMutator::test_signature_stripped PASSED   [ 20%]
+tests/test_scanner.py::TestHMACMutator::test_signature_truncated_lengths PASSED [ 22%]
+tests/test_scanner.py::TestHMACMutator::test_algorithm_downgrade_with_known_secret PASSED [ 23%]
+tests/test_scanner.py::TestHMACMutator::test_generate_all_returns_mutations PASSED [ 25%]
+tests/test_scanner.py::TestOAuthMutator::test_scope_escalation_generates_mutations PASSED [ 26%]
+tests/test_scanner.py::TestOAuthMutator::test_audience_confusion_includes_wildcard PASSED [ 27%]
+tests/test_scanner.py::TestOAuthMutator::test_issuer_substitution_excludes_original PASSED [ 29%]
+tests/test_scanner.py::TestOAuthMutator::test_generate_all_returns_many PASSED [ 30%]
+tests/test_scanner.py::TestOAuthMutator::test_all_forged_tokens_are_unsigned PASSED [ 32%]
+tests/test_scanner.py::TestOAuthMutator::test_invalid_token_raises PASSED [ 33%]
+tests/test_scanner.py::TestSessionCookieMutator::test_null_session_mutation PASSED [ 35%]
+tests/test_scanner.py::TestSessionCookieMutator::test_admin_guess_returns_list PASSED [ 36%]
+tests/test_scanner.py::TestSessionCookieMutator::test_integer_walk_on_numeric_session PASSED [ 38%]
+tests/test_scanner.py::TestSessionCookieMutator::test_integer_walk_skipped_for_non_numeric PASSED [ 39%]
+tests/test_scanner.py::TestSessionCookieMutator::test_generate_all_returns_mutations PASSED [ 41%]
+tests/test_scanner.py::TestAPIKeyMutator::test_no_key_mutation PASSED    [ 42%]
+tests/test_scanner.py::TestAPIKeyMutator::test_common_keys_includes_test PASSED [ 44%]
+tests/test_scanner.py::TestAPIKeyMutator::test_env_swap_live_to_test PASSED [ 45%]
+tests/test_scanner.py::TestAPIKeyMutator::test_strip_prefix_sk_live PASSED [ 47%]
+tests/test_scanner.py::TestAPIKeyMutator::test_generate_all_returns_mutations PASSED [ 48%]
+tests/test_scanner.py::TestBasicAuthMutator::test_default_credentials_contains_admin PASSED [ 50%]
+tests/test_scanner.py::TestBasicAuthMutator::test_null_password_mutation PASSED [ 51%]
+tests/test_scanner.py::TestBasicAuthMutator::test_tokens_are_base64_encoded PASSED [ 52%]
+tests/test_scanner.py::TestBasicAuthMutator::test_generate_all_returns_mutations PASSED [ 54%]
+tests/test_scanner.py::TestTokenValidator::test_healthy_jwt_passes PASSED [ 55%]
+tests/test_scanner.py::TestTokenValidator::test_expired_jwt_fails PASSED [ 57%]
+tests/test_scanner.py::TestTokenValidator::test_near_expiry_warns PASSED [ 58%]
+tests/test_scanner.py::TestTokenValidator::test_hmac_token_passes PASSED [ 60%]
+tests/test_scanner.py::TestTokenValidator::test_short_hmac_fails PASSED  [ 61%]
+tests/test_scanner.py::TestTokenValidator::test_malformed_jwt_fails PASSED [ 63%]
+tests/test_scanner.py::TestTokenValidator::test_basic_requires_colon PASSED [ 64%]
+tests/test_scanner.py::TestTokenValidator::test_summarise_jwt_extracts_claims PASSED [ 66%]
+tests/test_scanner.py::TestTokenValidator::test_summarise_hmac PASSED    [ 67%]
+tests/test_scanner.py::TestResponseAnalyzer::test_auth_bypass_detected PASSED [ 69%]
+tests/test_scanner.py::TestResponseAnalyzer::test_rejection_response_not_flagged PASSED [ 70%]
+tests/test_scanner.py::TestResponseAnalyzer::test_rejection_body_prevents_fp PASSED [ 72%]
+tests/test_scanner.py::TestResponseAnalyzer::test_timeout_response_not_flagged PASSED [ 73%]
+tests/test_scanner.py::TestResponseAnalyzer::test_500_not_flagged PASSED [ 75%]
+tests/test_scanner.py::TestResponseAnalyzer::test_compute_response_diff PASSED [ 76%]
+tests/test_scanner.py::TestResponseAnalyzer::test_batch_analyze_filters_non_vulnerable PASSED [ 77%]
+tests/test_scanner.py::TestTimingOracle::test_slow_response_flagged PASSED [ 79%]
+tests/test_scanner.py::TestTimingOracle::test_fast_response_not_flagged PASSED [ 80%]
+tests/test_scanner.py::TestTimingOracle::test_none_response_skipped PASSED [ 82%]
+tests/test_scanner.py::TestReporter::test_save_json PASSED               [ 83%]
+tests/test_scanner.py::TestReporter::test_save_html FAILED               [ 85%]
+tests/test_scanner.py::TestConfigLoader::test_load_valid_yaml PASSED     [ 86%]
+tests/test_scanner.py::TestConfigLoader::test_missing_file_raises PASSED [ 88%]
+tests/test_scanner.py::TestConfigLoader::test_invalid_yaml_raises PASSED [ 89%]
+tests/test_scanner.py::TestConfigLoader::test_merge_cli_overrides_config PASSED [ 91%]
+tests/test_scanner.py::TestMLRanker::test_scoring_is_deterministic PASSED [ 92%]
+tests/test_scanner.py::TestMLRanker::test_high_priority_ranked_first PASSED [ 94%]
+tests/test_scanner.py::TestMLRanker::test_rank_preserves_all PASSED      [ 95%]
+tests/test_scanner.py::TestMLRanker::test_ml_score_in_range PASSED       [ 97%]
+tests/test_scanner.py::TestBenchmark::test_false_positive_rate_under_threshold PASSED [ 98%]
+tests/test_scanner.py::TestBenchmark::test_true_positive_rate_for_alg_none PASSED [100%]
+
+================================== FAILURES ===================================
+_____________ TestJWTMutator.test_mut_escalate_role_changes_role ______________
+
+self = <tests.test_scanner.TestJWTMutator object at 0x000001CB3ED60890>
+valid_jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzU0MTQ3MzksImV4cCI6MTc3NTQxODMzOSwianRpIjoidGVzdC1qdGktMTIzNDUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2V9.yDmHBedNQCbJWfQhHL4HGEJoF9krr_T-Vt0xU9b2s4U'
+
+    def test_mut_escalate_role_changes_role(self, valid_jwt):
+        from modules.mutator import JWTMutator
+        mutations = JWTMutator(valid_jwt).mut_escalate_role()
+        assert len(mutations) > 0
+        for m in mutations:
+            payload = json.loads(_b64url_decode(m["token"].split(".")[1]))
+            admin_set = {"admin","superadmin","root","administrator"}
+            has_admin = any(payload.get(f) in admin_set for f in ["role","roles","user_type","type"])
+            has_flag  = any(payload.get(f) is True for f in ["is_admin","admin","superuser","isAdmin"])
+>           assert has_admin or has_flag
+E           assert (False or False)
+
+tests\test_scanner.py:129: AssertionError
+_________________________ TestReporter.test_save_html _________________________
+
+self = <tests.test_scanner.TestReporter object at 0x000001CB3ED92E10>
+tmp_path = WindowsPath('C:/Users/saini/AppData/Local/Temp/pytest-of-Sai Nivedhh/pytest-3/test_save_html0')
+
+    def test_save_html(self, tmp_path):
+        from modules.reporter import Reporter
+        data = {
+            "scan_info": {"target": "http://t.com", "token_type": "jwt", "timestamp": "2024",
+                          "total_mutations": 10, "baseline_status": 403},
+            "findings": [{"mutation_name": "alg:none", "category": "Algorithm Substitution",
+                          "severity": "CRITICAL", "is_vulnerable": True, "confidence": 0.95,
+                          "evidence": ["bypass"], "description": "Test", "mutation_detail": {},
+                          "baseline_status": 403, "response_status": 200,
+                          "response_body_preview": "{}", "response_time_ms": 45,
+                          "response_size_bytes": 50, "baseline_size_bytes": 30}],
+            "summary": {"total_vulnerabilities": 1, "critical": 1, "high": 0, "medium": 0, "low": 0},
+        }
+        path = str(tmp_path / "r.html")
+        Reporter().save_html(data, path)
+>       html = open(path).read()
+
+tests\test_scanner.py:474: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x000001CB3F12CF10>
+input = b'<!DOCTYPE html>\r\n<html lang="en">\r\n<head>\r\n    <meta charset="UTF-8">\r\n    <meta name="viewport" content="wi...er v1.0.0 | Research Use Only | \r\n    10 mutations tested | Report generated 2024\r\n</footer>\r\n</body>\r\n</html>'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d in position 4530: character maps to <undefined>
+
+C:\Users\saini\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+=========================== short test summary info ===========================
+FAILED tests/test_scanner.py::TestJWTMutator::test_mut_escalate_role_changes_role
+FAILED tests/test_scanner.py::TestReporter::test_save_html - UnicodeDecodeErr...
+======================== 2 failed, 66 passed in 0.54s =========================

@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  # Intentionally vulnerable JWT/HMAC test server
+  vulnerable-server:
+    build: .
+    entrypoint: ["python", "lab/vulnerable_server.py"]
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Scanner service
+  scanner:
+    build: .
+    depends_on:
+      vulnerable-server:
+        condition: service_healthy
+    volumes:
+      - ./reports:/app/reports
+    entrypoint: ["python", "scanner.py"]
+    command:
+      - "--target=http://vulnerable-server:5000"
+      - "--endpoint=/api/admin"
+      - "--token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6OTk5OTk5OTk5OX0.placeholder"
+      - "--type=jwt"
+      - "--html-report"
+      - "--rate-limit=0.5"
