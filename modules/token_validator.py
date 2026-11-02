@@ -49,13 +49,18 @@ def validate_token_health(token: str, token_type: str) -> Tuple[bool, str]:
         return False, f"Malformed JWT: expected 3 parts, got {len(parts)}."
 
     try:
+        header = json.loads(_b64url_decode(parts[0]))
         payload = json.loads(_b64url_decode(parts[1]))
+        if not isinstance(header, dict) or not isinstance(payload, dict):
+            raise ValueError("JWT header and payload must be JSON objects")
     except Exception as e:
         return False, f"Cannot decode JWT payload: {e}"
 
     now = int(time.time())
 
     exp = payload.get("exp")
+    if exp is not None and (isinstance(exp, bool) or not isinstance(exp, (int, float))):
+        return False, "JWT exp claim must be a numeric timestamp."
     if exp is None:
         return True, "WARNING: Token has no exp claim. Expiry not enforced by this token."
     if exp < now:
@@ -70,6 +75,8 @@ def validate_token_health(token: str, token_type: str) -> Tuple[bool, str]:
         )
 
     iat = payload.get("iat")
+    if iat is not None and (isinstance(iat, bool) or not isinstance(iat, (int, float))):
+        return False, "JWT iat claim must be a numeric timestamp."
     if iat and iat > now + 60:
         return False, f"Token has future iat ({iat}), {iat - now}s from now. Possible clock skew."
 
