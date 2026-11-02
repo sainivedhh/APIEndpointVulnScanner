@@ -395,6 +395,17 @@ class TestResponseAnalyzer:
                     "response_time_ms": 30}
         assert analyzer.analyze(self._mutation(), response, baseline_200)["is_vulnerable"] is False
 
+    def test_successful_baseline_does_not_flag_body_size_change(self, analyzer, baseline_200):
+        mutation = self._mutation(category="Replay", sev="MEDIUM")
+        response = {
+            "status_code": 200,
+            "body": {"message": "different but still ordinary data"},
+            "raw_body": '{"message":"' + ("x" * 300) + '"}',
+            "response_time_ms": 45,
+        }
+        finding = analyzer.analyze(mutation, response, baseline_200)
+        assert finding["is_vulnerable"] is False
+
     def test_timeout_response_not_flagged(self, analyzer, baseline_403):
         response = {"status_code": 0, "error": "timeout", "body": None,
                     "raw_body": "", "response_time_ms": 10000}
@@ -573,3 +584,21 @@ class TestBenchmark:
         tp = sum(1 for _ in range(10)
                  if analyzer.analyze(mutation, response, baseline)["is_vulnerable"])
         assert tp / 10 >= 0.9
+
+class TestStrictLabEndpoint:
+    def test_strict_endpoint_uses_server_side_role_lookup(self):
+        from lab.vulnerable_server import app, create_valid_jwt
+        client = app.test_client()
+        user_token = create_valid_jwt(user_id="user123", role="admin")
+        response = client.get(
+            "/api/strict/admin",
+            headers={"Authorization": f"Bearer {user_token}"},
+        )
+        assert response.status_code == 403
+
+        admin_token = create_valid_jwt(user_id="admin", role="admin")
+        response = client.get(
+            "/api/strict/admin",
+            headers={"Authorization": f"Bearer {admin_token}"},
+        )
+        assert response.status_code == 200
