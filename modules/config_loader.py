@@ -23,8 +23,17 @@ def load_config(config_path: str) -> Dict[str, Any]:
     if not isinstance(config, dict):
         raise ValueError("Config file must be a YAML dictionary")
         
-    # Validation of required fields if necessary
-    # For now, we'll just return it and let the scanner handle defaults
+    allowed = {
+        "target", "endpoint", "token", "type", "secret", "method", "headers",
+        "output", "html_report", "rate_limit", "timeout", "safe_mode", "verbose",
+        "ml_rank", "grpc", "proxy", "insecure", "auth_header", "async_scan",
+        "concurrency", "wordlist", "cookie_name", "api_key_header",
+    }
+    if not all(isinstance(key, str) for key in config):
+        raise ValueError("Configuration keys must be strings")
+    unknown = sorted(set(config) - allowed)
+    if unknown:
+        raise ValueError(f"Unknown config option(s): {', '.join(unknown)}")
     return config
 
 def merge_config_with_args(config: Dict[str, Any], args: Dict[str, Any]) -> Dict[str, Any]:
