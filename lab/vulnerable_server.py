@@ -320,7 +320,8 @@ def strict_admin():
             raise ValueError("token expired")
 
         sub = payload.get("sub", "")
-        if user.get("role") != "admin":
+        user = USERS_DB.get(sub)
+        if user is None or user.get("role") != "admin":
             return jsonify({"error": "Forbidden"}), 403
 
         return jsonify({"success": True, "message": "Properly secured endpoint", "admin_data": ADMIN_DATA})
