@@ -50,6 +50,10 @@ class RequestSender:
             verify_ssl: Boolean representing enforcing SSL verifications
             auth_header_name: Custom authentication header
         """
+        if timeout <= 0:
+            raise ValueError("timeout must be greater than zero")
+        if rate_limit < 0:
+            raise ValueError("rate_limit cannot be negative")
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.rate_limit = rate_limit
@@ -223,7 +227,7 @@ class RequestSender:
             Response dictionary
         """
         self._rate_limit_sleep()
-        headers = extra_headers or {}
+        headers = dict(extra_headers or {})
         headers["Cookie"] = f"{cookie_name}={token}"
 
         start_time = time.time()
