@@ -151,22 +151,18 @@ class ResponseAnalyzer:
         elif mutated_code in SUCCESS_CODES:
             # Check if baseline also succeeded — then verify content differs
             if baseline_code in SUCCESS_CODES:
-                # Look for privilege escalation signals in response body
+                # Both requests were already authorized. A changed body is not
+                # proof of a bypass: require a new privilege indicator absent
+                # from the original baseline response.
                 escalation_score = self._check_escalation_signals(mutated_body, mutation)
-                if escalation_score > 0.5:
+                baseline_escalation = self._check_escalation_signals(baseline_body, mutation)
+                if escalation_score > 0.5 and baseline_escalation <= 0.5:
                     is_vulnerable = True
                     confidence = escalation_score
-                    evidence.append(f"Privilege escalation signals in response (score={escalation_score:.2f})")
-                    severity = mutation.get("severity_hint", "HIGH")
-                # Check if body is significantly different (got different data)
-                elif baseline_len > 0 and abs(mutated_len - baseline_len) / max(baseline_len, 1) > 0.3:
-                    # Significantly different response body — possible data access change
-                    is_vulnerable = True
-                    confidence = 0.6
                     evidence.append(
-                        f"Response body size differs: baseline={baseline_len}B, mutated={mutated_len}B"
+                        f"New privilege indicators in response (score={escalation_score:.2f})"
                     )
-                    severity = mutation.get("severity_hint", "MEDIUM")
+                    severity = mutation.get("severity_hint", "HIGH")
             else:
                 # Baseline failed, mutation succeeded — bypass confirmed
                 is_vulnerable = True
